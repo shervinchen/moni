@@ -20,7 +20,7 @@ import Tags from "@/components/Money/Tags.vue";
 import recordListModel from '@/models/recordListModel.ts'
 import tagListModel from '@/models/tagListModel.ts'
 
-const recordList: RecordItem[] = recordListModel.fetch();
+const recordList = recordListModel.fetch();
 const tagList = tagListModel.fetch();
 
 @Component({
@@ -51,14 +51,12 @@ export default class Money extends Vue {
   }
 
   saveRecord() {
-    const recordCopy: RecordItem = recordListModel.clone(this.record);
-    recordCopy.createdAt = new Date();
-    this.recordList.push(recordCopy);
+    recordListModel.create(this.record)
   }
 
   @Watch("recordList")
   onRecordListChange() {
-    recordListModel.save(this.recordList)
+    recordListModel.save()
   }
 }
 </script>
