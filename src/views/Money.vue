@@ -15,18 +15,9 @@ import NumberPad from "@/components/Money/NumberPad.vue";
 import Types from "@/components/Money/Types.vue";
 import Notes from "@/components/Money/Notes.vue";
 import Tags from "@/components/Money/Tags.vue";
-// import model from '@/model.js'
-const model = require('@/model.js').default
+import model from '@/model.ts'
 
-const recordList: Record[] = model.fetch();
-
-type Record = {
-  tags: string[];
-  notes: string;
-  type: string;
-  amount: number;
-  createdAt?: Date;
-};
+const recordList: RecordItem[] = model.fetch();
 
 @Component({
   components: {
@@ -38,9 +29,9 @@ type Record = {
 })
 export default class Money extends Vue {
   tags = ["衣", "食", "住", "行"];
-  recordList: Record[] = recordList
+  recordList: RecordItem[] = recordList
 
-  record: Record = {
+  record: RecordItem = {
     tags: [],
     notes: "",
     type: "-",
@@ -56,14 +47,14 @@ export default class Money extends Vue {
   }
 
   saveRecord() {
-    const recordCopy: Record = JSON.parse(JSON.stringify(this.record));
+    const recordCopy: RecordItem = model.clone(this.record);
     recordCopy.createdAt = new Date();
     this.recordList.push(recordCopy);
   }
 
   @Watch("recordList")
   onRecordListChange() {
-    window.localStorage.setItem("recordList", JSON.stringify(this.recordList));
+    model.save(this.recordList)
   }
 }
 </script>
