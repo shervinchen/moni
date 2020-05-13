@@ -42,6 +42,10 @@ export default class Tags extends Vue {
       return
     }
     if (name && this.dataSource) {
+      if (this.dataSource.indexOf(name) >= 0) {
+        window.alert('标签名重复了')
+        return
+      }
       this.$emit('update:dataSource', [...this.dataSource, name]);
     }
   }
