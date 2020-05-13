@@ -15,10 +15,10 @@ import NumberPad from "@/components/Money/NumberPad.vue";
 import Types from "@/components/Money/Types.vue";
 import Notes from "@/components/Money/Notes.vue";
 import Tags from "@/components/Money/Tags.vue";
+// import model from '@/model.js'
+const model = require('@/model.js').default
 
-const recordList: Record[] = JSON.parse(
-    window.localStorage.getItem("recordList") || "[]"
-  );
+const recordList: Record[] = model.fetch();
 
 type Record = {
   tags: string[];
