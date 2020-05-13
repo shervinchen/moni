@@ -47,6 +47,7 @@ export default class Tags extends Vue {
         return
       }
       this.$emit('update:dataSource', [...this.dataSource, name]);
+      window.alert('添加成功')
     }
   }
 }
