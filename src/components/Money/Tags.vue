@@ -42,6 +42,10 @@ export default class Tags extends Vue {
       return
     }
     if (name && this.dataSource) {
+      if (/^[ ]+$/.test(name)) {
+        window.alert('标签名不能为空格')
+        return
+      }
       if (this.dataSource.indexOf(name) >= 0) {
         window.alert('标签名重复了')
         return

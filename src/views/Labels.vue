@@ -35,6 +35,10 @@ export default class Labels extends Vue {
       return
     }
     if (name) {
+      if (/^[ ]+$/.test(name)) {
+        window.alert('标签名不能为空格')
+        return
+      }
       const message = tagListModel.create(name)
       if (message === 'duplicated') {
         window.alert('标签名重复了')
