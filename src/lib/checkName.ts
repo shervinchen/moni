@@ -1,5 +1,5 @@
 function checkName(name: string) {
-  if (name === "" || /^[ ]+$/.test(name)) {
+  if (/^[ ]*$/.test(name)) {
     return false;
   }
   return true;

@@ -64,21 +64,23 @@ const store = new Vuex.Store({
         }
       }
     },
-    removeTag (state, id) {
-      let index = -1
-      for (let i = 0; i < state.tagList.length; i++) {
-        if (state.tagList[i].id === id) {
-          index = i;
-          break;
+    removeTag (state) {
+      if (state.currentTag) {
+        let index = -1
+        for (let i = 0; i < state.tagList.length; i++) {
+          if (state.tagList[i].id === state.currentTag.id) {
+            index = i;
+            break;
+          }
         }
-      }
-      if (index >= 0) {
-        state.tagList.splice(index, 1)
-        store.commit('saveTags')
-        window.alert('删除成功')
-        router.back()
-      } else {
-        window.alert('删除失败')
+        if (index >= 0) {
+          state.tagList.splice(index, 1)
+          store.commit('saveTags')
+          window.alert('删除成功')
+          router.back()
+        } else {
+          window.alert('删除失败')
+        }
       }
     },
     saveTags (state) {

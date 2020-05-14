@@ -6,7 +6,7 @@
         <span class="right-icon"></span>
     </div>
     <div class="form-wrapper">
-      <FormItem :value="currentTag.name" @update:value="update" placeholder="请输入标签名" field-name="标签名" />
+      <FormItem :value="currentTag && currentTag.name" @update:value="update" placeholder="请输入标签名" field-name="标签名" />
     </div>
     <div class="button-wrapper">
       <Button @click="save">保存</Button>
@@ -43,25 +43,19 @@ export default class EditLabel extends Vue {
   }
 
   update(name: string) {
-    if (this.currentTag) {
-      this.$store.commit('updateTag', name)
-    }
+    this.$store.commit('updateTag', name)
   }
 
   save() {
-    if (this.currentTag) {
-      if (!checkName(this.currentTag.name)) {
-        return window.alert('标签名不能为空')
-      } else {
-        this.$store.commit('saveTag')
-      }
+    if (!checkName(this.currentTag.name)) {
+      return window.alert('标签名不能为空')
+    } else {
+      this.$store.commit('saveTag')
     }
   }
 
   remove() {
-    if (this.currentTag) {
-      this.$store.commit('removeTag', this.currentTag.id)
-    }
+    this.$store.commit('removeTag')
   }
 
   goBack() {
