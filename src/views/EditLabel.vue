@@ -9,7 +9,8 @@
       <FormItem :value="currentTag.name" @update:value="update" placeholder="请输入标签名" field-name="标签名" />
     </div>
     <div class="button-wrapper">
-      <Button @click="remove">删除标签</Button>
+      <Button @click="save">保存</Button>
+      <Button @click="remove">删除</Button>
     </div>
   </Layout>
 </template>
@@ -19,6 +20,8 @@ import Vue from "vue";
 import { Component } from "vue-property-decorator";
 import FormItem from '@/components/Money/FormItem.vue'
 import Button from "@/components/Button.vue"
+
+import checkName from '@/lib/checkName'
 
 @Component({
   components: {
@@ -41,10 +44,21 @@ export default class EditLabel extends Vue {
 
   update(name: string) {
     if (this.currentTag) {
-      this.$store.commit('updateTag', {
-        id: this.currentTag.id, 
-        name
-      })
+      this.$store.commit('updateTag', name)
+    }
+  }
+
+  save() {
+    if (this.currentTag) {
+      const { id, name } = this.currentTag
+      if (!checkName(name)) {
+        return window.alert('标签名不能为空')
+      } else {
+        this.$store.commit('saveTag', {
+          id,
+          name
+        })
+      }
     }
   }
 
@@ -89,5 +103,8 @@ export default class EditLabel extends Vue {
     text-align: center;
     padding: 16px;
     margin-top: 44 - 16px;
+    .button {
+      margin: 0 16px;
+    }
   }
 </style>

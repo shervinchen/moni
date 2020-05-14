@@ -42,17 +42,23 @@ const store = new Vuex.Store({
         window.alert("添加成功");
       }
     },
-    updateTag (state, payload) {
+    updateTag (state, name) {
+      if (state.currentTag) {
+        state.currentTag.name = name
+      }
+    },
+    saveTag(state, payload) {
       const { id, name } = payload
       const idList = state.tagList.map(item => item.id)
       if (idList.indexOf(id) >= 0) {
-        const names = state.tagList.map(item => item.name)
-        if (names.indexOf(name) >= 0) {
+        if (state.tagList.filter(item => item.name === name).length > 1) {
           window.alert('标签名重复了')
         } else {
           const tag = state.tagList.filter(item => item.id === id)[0]
           tag.name = name
           store.commit('saveTags')
+          window.alert('保存成功')
+          router.back()
         }
       }
     },
@@ -67,6 +73,7 @@ const store = new Vuex.Store({
       if (index >= 0) {
         state.tagList.splice(index, 1)
         store.commit('saveTags')
+        window.alert('删除成功')
         router.back()
       } else {
         window.alert('删除失败')
