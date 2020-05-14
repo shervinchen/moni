@@ -1,13 +1,8 @@
-function checkName (name: string) {
-  if (name === '') {
-    return false
+function checkName(name: string) {
+  if (name === "" || /^[ ]+$/.test(name)) {
+    return false;
   }
-  if (name) {
-    if (/^[ ]+$/.test(name)) {
-      return false
-    }
-    return true
-  }
+  return true;
 }
 
-export default checkName
+export default checkName;
