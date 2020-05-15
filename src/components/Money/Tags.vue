@@ -5,7 +5,7 @@
     </div>
     <ul class="current">
       <li
-        :class="{ selected: selectedTags.indexOf(tag) >= 0 }"
+        :class="{ selected: value.map(item => item.id).indexOf(tag.id) >= 0 }"
         v-for="tag in tagList"
         :key="tag.id"
         @click="toggle(tag)"
@@ -18,13 +18,14 @@
 
 <script lang="ts">
 // import Vue from "vue";
-import { Component } from "vue-property-decorator";
+import { Component, Prop } from "vue-property-decorator";
 import { mixins } from 'vue-class-component';
 import TagHelper from '@/mixins/TagHelper';
+import clone from '@/lib/clone';
 
 @Component
 export default class Tags extends mixins(TagHelper) {
-  selectedTags: string[] = [];
+  @Prop({default: []}) readonly value!: Tag[];
 
   get tagList() {
     return this.$store.state.tagList
@@ -34,14 +35,15 @@ export default class Tags extends mixins(TagHelper) {
     this.$store.commit('fetchTags')
   }
 
-  toggle(tag: string) {
-    const index = this.selectedTags.indexOf(tag);
+  toggle(tag: Tag) {
+    const tags = clone(this.value)
+    const index = tags.map(item => item.id).indexOf(tag.id);
     if (index >= 0) {
-      this.selectedTags.splice(index, 1);
+      tags.splice(index, 1);
     } else {
-      this.selectedTags.push(tag);
+      tags.push(tag);
     }
-    this.$emit('update:value', this.selectedTags)
+    this.$emit('update:value', tags)
   }
 }
 </script>

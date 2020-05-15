@@ -10,7 +10,7 @@
     </div>
     <div class="button-wrapper">
       <Button @click="save">保存</Button>
-      <Button @click="remove">删除</Button>
+      <Button v-show="tagList.length !== 1" @click="remove">删除</Button>
     </div>
   </Layout>
 </template>
@@ -32,6 +32,10 @@ import checkName from '@/lib/checkName'
 export default class EditLabel extends Vue {
   get currentTag() {
     return this.$store.state.currentTag
+  }
+
+  get tagList() {
+    return this.$store.state.tagList
   }
 
   created() {

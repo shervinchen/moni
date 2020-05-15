@@ -5,7 +5,7 @@
       :data-source="recordTypeList"
       :value.sync="type"
     />
-    <ol>
+    <ol v-if="groupedList.length > 0">
       <li v-for="(group, index) in groupedList" :key="index">
         <h3 class="title">
           {{ formatTitle(group.title) }}
@@ -20,6 +20,9 @@
         </ol>
       </li>
     </ol>
+    <div v-else class="no-result">
+      目前没有相关记录
+    </div>
   </Layout>
 </template>
 
@@ -40,7 +43,7 @@ import clone from "@/lib/clone";
 })
 export default class Statistics extends Vue {
   tagString(tags: Tag[]) {
-    return tags.length === 0 ? "无" : tags.join(",");
+    return tags.length === 0 ? "无" : tags.map(tag => tag.name).join("，");
   }
 
   formatTitle(string: string) {
@@ -65,14 +68,14 @@ export default class Statistics extends Vue {
 
   get groupedList() {
     const { recordList } = this;
-    if (recordList.length === 0) {
-      return [];
-    }
     const newList = clone(recordList)
       .filter((record) => record.type === this.type)
       .sort(
         (a, b) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf()
       );
+    if (newList.length === 0) {
+      return [] as Result
+    }
     type Result = {
       title: string;
       total?: number;
@@ -112,6 +115,10 @@ export default class Statistics extends Vue {
 </script>
 
 <style lang="scss" scoped>
+.no-result {
+  padding: 16px;
+  text-align: center;
+}
 ::v-deep {
   .type-tabs-item {
     background: #c4c4c4;
