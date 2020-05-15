@@ -1,7 +1,28 @@
 <template>
   <Layout>
-    <Tabs class-prefix="type" :data-source="recordTypeList" :value.sync="type" />
-    <Tabs height="48px" class-prefix="interval" :data-source="intervalList" :value.sync="interval" />
+    <Tabs
+      class-prefix="type"
+      :data-source="recordTypeList"
+      :value.sync="type"
+    />
+    <Tabs
+      height="48px"
+      class-prefix="interval"
+      :data-source="intervalList"
+      :value.sync="interval"
+    />
+    <ol>
+      <li v-for="(group, index) in result" :key="index">
+        <h3 class="title">{{ group.title }}</h3>
+        <ol>
+          <li class="record" v-for="item in group.items" :key="item.id">
+            <span>{{ tagString(item.tags) }}</span>
+            <span class="notes">{{ item.notes }}</span>
+            <span>￥{{ item.amount }}</span>
+          </li>
+        </ol>
+      </li>
+    </ol>
   </Layout>
 </template>
 
@@ -11,8 +32,8 @@ import { Component } from "vue-property-decorator";
 
 import Tabs from "@/components/Tabs.vue";
 
-import intervalList from '@/constants/intervalList'
-import recordTypeList from '@/constants/recordTypeList'
+import intervalList from "@/constants/intervalList";
+import recordTypeList from "@/constants/recordTypeList";
 
 @Component({
   components: {
@@ -20,11 +41,40 @@ import recordTypeList from '@/constants/recordTypeList'
   },
 })
 export default class Statistics extends Vue {
-  type = "-";
-  interval = 'day'
+  tagString(tags: Tag[]) {
+    return tags.length === 0 ? '无' : tags.join(',')
+  }
 
-  intervalList = intervalList
-  recordTypeList = recordTypeList
+  get recordList() {
+    return (this.$store.state as RootState).recordList;
+  }
+
+  get result() {
+    const { recordList } = this;
+    type HashTableValue = { title: string; items: RecordItem[] }
+    const hashTable: {
+      [key: string]: HashTableValue;
+    } = {};
+    for (let index = 0; index < recordList.length; index++) {
+      const [date, time] = recordList[index].createdAt.split("T");
+      if (date) {
+        hashTable[date] = hashTable[date] || { title: date, items: [] };
+        hashTable[date].items.push(recordList[index]);
+      }
+    }
+    console.log(hashTable);
+    return hashTable;
+  }
+
+  created() {
+    this.$store.commit("fetchRecords");
+  }
+
+  type = "-";
+  interval = "day";
+
+  intervalList = intervalList;
+  recordTypeList = recordTypeList;
 }
 </script>
 
@@ -40,7 +90,26 @@ export default class Statistics extends Vue {
     }
   }
   // .interval-tabs-item {
-    // height: 48px;
+  // height: 48px;
   // }
+  %item {
+    padding: 8px 16px;
+    line-height: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .title {
+    @extend %item;
+  }
+  .record {
+    @extend %item;
+    background: #fff
+  }
+  .notes {
+    margin-right: auto;
+    margin-left: 16px;
+    color: #999;
+  }
 }
 </style>
