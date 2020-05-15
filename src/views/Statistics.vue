@@ -5,12 +5,6 @@
       :data-source="recordTypeList"
       :value.sync="type"
     />
-    <Tabs
-      height="48px"
-      class-prefix="interval"
-      :data-source="intervalList"
-      :value.sync="interval"
-    />
     <ol>
       <li v-for="(group, index) in groupedList" :key="index">
         <h3 class="title">{{ formatTitle(group.title) }}</h3>
@@ -31,8 +25,6 @@ import Vue from "vue";
 import { Component } from "vue-property-decorator";
 
 import Tabs from "@/components/Tabs.vue";
-
-import intervalList from "@/constants/intervalList";
 import recordTypeList from "@/constants/recordTypeList";
 
 import dayjs from 'dayjs'
@@ -92,9 +84,6 @@ export default class Statistics extends Vue {
   }
 
   type = "-";
-  interval = "day";
-
-  intervalList = intervalList;
   recordTypeList = recordTypeList;
 }
 </script>
@@ -102,9 +91,9 @@ export default class Statistics extends Vue {
 <style lang="scss" scoped>
 ::v-deep {
   .type-tabs-item {
-    background: #fff;
+    background: #c4c4c4;
     &.selected {
-      background: #c4c4c4;
+      background: #fff;
       &::after {
         display: none;
       }
