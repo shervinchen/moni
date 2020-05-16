@@ -27,18 +27,18 @@ export default class FormItem extends Vue {
 
 .form-item {
   font-size: 14px;
-  padding-left: 16px;
+  padding: 0 16px;
   display: flex;
   align-items: center;
   .name {
     padding-right: 16px;
+    white-space: nowrap;
   }
   input {
     height: 40px;
     flex-grow: 1;
     background: transparent;
     border: none;
-    padding-right: 16px;
   }
 }
 </style>

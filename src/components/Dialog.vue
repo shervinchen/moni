@@ -84,15 +84,14 @@ export default class Dialog extends Vue {
     border-radius: 16px;
     transform: translate3d(-50%, -50%, 0);
     .header {
-      padding-top: 24px;
+      padding-top: 16px;
       font-weight: 500;
       line-height: 24px;
       text-align: center;
     }
     .content {
-      padding-top: 12px;
+      padding: 16px 0;
       color: #646566;
-      padding: 24px;
       font-size: 14px;
       line-height: 20px;
     }
