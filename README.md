@@ -19,3 +19,9 @@ npm run serve
 ```
 npm run build
 ```
+
+## 部署
+
+```
+sh deploy.sh
+```
