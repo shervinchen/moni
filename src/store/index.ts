@@ -11,9 +11,13 @@ const store = new Vuex.Store({
   state: {
     recordList: [],
     tagList: [],
-    currentTag: undefined
+    currentTag: undefined,
+    isDialogVisible: false
   } as RootState,
   mutations: {
+    setDialogVisible(state, status) {
+      state.isDialogVisible = status
+    },
     setCurrentTag(state, id) {
       state.currentTag = state.tagList.filter((tag) => tag.id === id)[0];
     },

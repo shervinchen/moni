@@ -4,14 +4,23 @@
       <slot></slot>
     </div>
     <Nav />
+    <Dialog />
   </div>
 </template>
 
 <script lang="ts">
-export default {
-  name: "Layout",
-  props: ['classPrefix']
-};
+import Vue from "vue";
+import { Component, Prop } from "vue-property-decorator";
+import Dialog from "@/components/Dialog.vue";
+
+@Component({
+  components: {
+    Dialog,
+  },
+})
+export default class Layout extends Vue {
+  @Prop({ type: String, default: "" }) readonly classPrefix!: string;
+}
 </script>
 
 <style lang="scss" scoped>

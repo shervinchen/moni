@@ -24,6 +24,7 @@ type RootState = {
   recordList: RecordItem[];
   tagList: Tag[];
   currentTag?: Tag;
+  isDialogVisible: boolean;
 }
 
 // interface Window {
