@@ -32,5 +32,6 @@ npm run build
 ## 部署
 
 ```
-npm run deploy
+npm run deploy:github
+npm run deploy:gitee
 ```
