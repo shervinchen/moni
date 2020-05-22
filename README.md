@@ -1,6 +1,8 @@
 # moni
 
-一个移动端记账应用，使用Vue相关技术开发
+一个移动端记账应用，技术栈：Vue2 + TypeScript
+
+[React版本](https://github.com/csdoker/moni-react)
 
 ## 安装
 
