@@ -25,5 +25,5 @@ npm run build
 ## 部署
 
 ```
-sh deploy.sh
+npm run deploy
 ```
