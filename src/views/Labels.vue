@@ -9,6 +9,14 @@
     <div class="create-tag-wrapper">
       <Button class="create-tag" @click="createTag">新建标签</Button>
     </div>
+    <Dialog title="新增标签" :visible="isCreateTagVisible" @confirm="confirmCreateTag" @cancel="cancelCreateTag">
+      <FormItem
+        slot="content"
+        :value.sync="tagName"
+        placeholder="在这里输入名称"
+        field-name="标签名"
+      />
+    </Dialog>
   </Layout>
 </template>
 
@@ -18,10 +26,14 @@ import { Component } from "vue-property-decorator";
 import Button from "@/components/Button.vue"
 import { mixins } from 'vue-class-component';
 import TagHelper from '@/mixins/TagHelper'
+import FormItem from "@/components/Money/FormItem.vue";
+import Dialog from "@/components/Dialog.vue";
 
 @Component({
   components: {
-    Button
+    Button,
+    FormItem,
+    Dialog
   },
 })
 export default class Labels extends mixins(TagHelper) {

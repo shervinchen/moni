@@ -1,13 +1,9 @@
 <template>
-  <div v-show="isDialogVisible" class="dialog-wrapper">
+  <div v-show="visible" class="dialog-wrapper">
     <div class="dialog">
-      <div class="header">新增标签</div>
+      <div class="header">{{title}}</div>
       <div class="content">
-        <FormItem
-          :value.sync="value"
-          placeholder="在这里输入名称"
-          field-name="标签名"
-        />
+        <slot name="content"></slot>
       </div>
       <div class="footer">
         <button class="button" @click="cancel">取消</button>
@@ -19,44 +15,19 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { Component, Watch } from "vue-property-decorator";
-import FormItem from "@/components/Money/FormItem.vue";
-import checkName from "@/lib/checkName";
+import { Component, Prop } from "vue-property-decorator";
 
-@Component({
-  components: {
-    FormItem,
-  },
-})
+@Component
 export default class Dialog extends Vue {
-  get isDialogVisible() {
-    return this.$store.state.isDialogVisible;
-  }
-
-  get tagList() {
-    return this.$store.state.tagList;
-  }
-
-  value = "";
+  @Prop({ type: String, default: "" }) readonly title!: string;
+  @Prop({ type: Boolean, default: false }) readonly visible!: boolean;
 
   confirm() {
-    if (!checkName(this.value)) {
-      return window.alert("标签名不能为空");
-    } else {
-      const names = this.tagList.map((item: Tag) => item.name);
-      if (names.indexOf(this.value.trim()) >= 0) {
-        window.alert("标签名重复了");
-      } else {
-        this.$store.commit("createTag", this.value);
-        this.cancel();
-        this.value = "";
-        window.alert("添加成功");
-      }
-    }
+    this.$emit('confirm')
   }
 
   cancel() {
-    this.$store.commit("setDialogVisible", false);
+    this.$emit('cancel')
   }
 }
 </script>
