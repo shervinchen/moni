@@ -75,6 +75,7 @@ export default class Money extends mixins(TagHelper) {
     window.alert('已保存')
     this.record.tags = []
     this.record.notes = ''
+    this.record.amount = 0
   }
 
   confirmSelectTag () {
